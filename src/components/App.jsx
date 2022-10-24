@@ -1,37 +1,58 @@
 import React from "react";
-sfd;
+
+//angela's solution .... uses only one state, and controlled component
+
 function App() {
-  const [name, setName] = React.useState(null);
-  const [lName, setLname] = React.useState(null);
-  const [headingText, setHeadingText] = React.useState(null);
-  function handleOnChangeName(e) {
-    setName(e.target.value);
+  const [fullName, setFullName] = React.useState({
+    //default values ""
+    fName: "",
+    lName: "",
+  });
+
+  function handleOnChangeFullName(e) {
+    const name = e.target.name; //input html names , "fName"/"lName"
+    const newValue = e.target.value;
+
+    /* optional union for the the two above lines 
+    const {name, value:newValue} = e.traget; */
+
+    setFullName((prevValue) => {
+      if (name === "fName") {
+        return {
+          fName: newValue,
+          lName: prevValue.lName,
+        };
+      } else if (name === "lName")
+        return {
+          fName: prevValue.fName,
+          lName: newValue,
+        };
+    });
   }
-  function handleOnChangeLname(e) {
-    setLname(e.target.value);
-  }
-  function handleClick() {
-    setHeadingText(name + " " + lName);
-  }
+
   function handleOnSubmit(e) {
     e.preventDefault();
   }
 
   return (
     <div className="container">
-      <h1>Hello {headingText}</h1>
+      <h1>
+        Hello {fullName.fName} {fullName.lName}
+      </h1>
       <form onSubmit={handleOnSubmit}>
         <input
           name="fName"
           placeholder="First Name"
-          onChange={handleOnChangeName}
+          onChange={handleOnChangeFullName}
+          value={fullName.fName}
         />
         <input
           name="lName"
           placeholder="Last Name"
-          onChange={handleOnChangeLname}
+          onChange={handleOnChangeFullName}
+          value={fullName.ldasName}
         />
-        <button onClick={handleClick}>Submit</button>
+        <button>Submit</button>
       </form>
     </div>
   );
